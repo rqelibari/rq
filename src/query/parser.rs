@@ -7,6 +7,7 @@ use std::collections;
 use std::fmt;
 use std::iter;
 use std::str;
+use linked_hash_map;
 use value;
 
 impl_rdp! {
@@ -152,14 +153,14 @@ impl_rdp! {
                 collections::LinkedList::new()
             },
         }
-        build_object(&self) -> collections::BTreeMap<value::Value, value::Value> {
+        build_object(&self) -> linked_hash_map::LinkedHashMap<value::Value, value::Value> {
             (_: pair, pair: build_pair(), mut tail: build_object()) => {
                 trace!("build_object pair={:?} tail={:?}", pair, tail);
                 tail.insert(pair.0, pair.1);
                 tail
             },
             () => {
-                collections::BTreeMap::new()
+                linked_hash_map::LinkedHashMap::new()
             },
         }
         build_pair(&self) -> (value::Value, value::Value) {

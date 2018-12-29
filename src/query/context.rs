@@ -2,6 +2,7 @@ use error;
 use log;
 use ordered_float;
 use query;
+use linked_hash_map;
 use std::cell;
 use std::collections;
 use std::mem;
@@ -511,7 +512,7 @@ fn value_from_v8(isolate: &v8::Isolate, context: &v8::Context, value: v8::Value)
         let length_key = v8::value::String::from_str(isolate, "length");
         let keys_length = keys.get(context, &length_key).into_uint32().unwrap().value();
 
-        let mut result = collections::BTreeMap::new();
+        let mut result = linked_hash_map::LinkedHashMap::new();
         for i in 0..keys_length {
             let key = keys.get_index(context, i).to_detail_string(context).into();
             let value = object.get(context, &key);

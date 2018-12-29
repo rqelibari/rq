@@ -3,6 +3,7 @@
 
 extern crate ansi_term;
 extern crate dtoa;
+extern crate linked_hash_map;
 #[macro_use]
 extern crate error_chain;
 extern crate glob;

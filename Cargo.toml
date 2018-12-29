@@ -53,6 +53,10 @@ failure = "0.1.3"
 features = ["serde"]
 version = "0.3.0"
 
+[dependencies.linked-hash-map]
+features = ["serde_impl"]
+version = "0.4.2"
+
 [dependencies.v8]
 version = "0.9.1"
 optional = true

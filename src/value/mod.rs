@@ -3,7 +3,7 @@ use error;
 use ordered_float;
 use serde;
 use serde_json;
-use std::collections;
+use linked_hash_map;
 use std::fmt;
 use std::io;
 
@@ -19,7 +19,7 @@ pub mod csv;
 pub mod toml;
 pub mod yaml;
 
-#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Hash)]
 pub enum Value {
     Unit,
     Bool(bool),
@@ -42,8 +42,7 @@ pub enum Value {
     Bytes(Vec<u8>),
 
     Sequence(Vec<Value>),
-    // TODO: Use a container that preserves insertion order
-    Map(collections::BTreeMap<Value, Value>),
+    Map(linked_hash_map::LinkedHashMap<Value, Value>),
 }
 
 pub trait Source {
@@ -312,7 +311,7 @@ impl serde::de::Visitor for ValueVisitor {
     fn visit_map<V>(self, v: V) -> Result<Self::Value, V::Error>
         where V: serde::de::MapVisitor
     {
-        let values = try!(serde::de::impls::BTreeMapVisitor::new().visit_map(v));
+        let values = try!(linked_hash_map::serde::LinkedHashMapVisitor::new().visit_map(v));
         Ok(Value::Map(values))
     }
 
