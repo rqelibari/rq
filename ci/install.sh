@@ -27,7 +27,7 @@ main() {
 
     if [ ! -d v8-build ]
     then
-        wget "https://s3-eu-west-1.amazonaws.com/record-query/v8/$TARGET/5.7.441.1/v8-build.tar.gz"
+        wget "https://s3-eu-west-1.amazonaws.com/record-query/v8/$TARGET/5.6.222/v8-build.tar.gz"
         tar -xvf v8-build.tar.gz
     fi
 
